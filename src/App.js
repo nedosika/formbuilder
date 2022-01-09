@@ -7,7 +7,7 @@ const formInputs = {
 }
 
 function App() {
-    const {fields, handleInput, handleSubmit} = useForm(formInputs);
+    const {fields, handleSubmit} = useForm(formInputs);
     const {firstName, lastName} = fields;
 
     const onSubmit = (data) => console.log(data);
@@ -15,8 +15,8 @@ function App() {
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <input value={firstName.value} onChange={handleInput} name="firstName"/>
-                <input value={lastName.value} onChange={handleInput} name="lastName"/>
+                <input value={firstName.value} onChange={firstName.onChange} />
+                <input value={lastName.value} onChange={lastName.onChange} />
                 <input type="submit"/>
             </form>
         </div>

@@ -1,23 +1,37 @@
-import {useState} from "react";
+import {useState, useCallback} from "react";
 
 const useForm = (initialFields = {}) => {
+    const form = Object.assign({}, ...Object.entries(initialFields).map((field) => {
+            const name = field[0];
+            const value = field[1];
+
+            return {
+                [name]: {
+                    value: value.value,
+                    onChange: (event) => handleInput(name, event)
+                },
+            }
+        })
+    );
+
+    const [fields, setState] = useState(form);
+
     const handleSubmit = (onSubmit) => (event) => {
         event.preventDefault();
-        onSubmit();
+        onSubmit({...fields});
     }
 
-    const [fields, setState] = useState({...initialFields});
+    const handleInput = (fieldName, event) => {
+        const field = fields[fieldName];
+        const value = event.target.value;
 
-    const handleInput = (event) => {
         setState((prevState) => ({
             ...prevState,
-            [event.target.name]: {
-                value: event.target.value
-            }
+            [fieldName]: {...field, value}
         }));
-    }
+    };
 
-    return {fields, handleInput, handleSubmit}
+    return {fields, handleSubmit}
 }
 
 export default useForm;
