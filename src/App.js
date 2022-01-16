@@ -7,22 +7,24 @@ function App() {
 
     return (
         <FormBuilder
+            onSubmit={onSubmit}
             config={{
-                onSubmit,
                 fields: [
                     {
                         type: 'text',
                         name: 'firstName',
+                        initialValue: 'qqq'
                     },
                     {
                         type: 'alphabet',
                         name: 'io',
+                        initialValue: 'qqq',
                         restriction: { maxLength: 10 }
                     },
                     {
                         type: 'select',
                         name: 'color',
-                        value: ['red', 'green', 'blue']
+                        values: ['red', 'green', 'blue']
                     },
                     {
                         type: 'number',
