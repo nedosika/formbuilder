@@ -19,8 +19,9 @@ function App() {
                     {
                         type: 'alphabet',
                         name: 'io',
-                        initialValue: 'qqq',
-                        restriction: { maxLength: 10 }
+                        label: 'IO: ',
+                        initialValue: '',
+                        restriction: { maxLength: 2 }
                     },
                     {
                         type: 'select',

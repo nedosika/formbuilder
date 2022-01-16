@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Field from "./Field";
+import useValidator from "../hooks/useValidator";
 
 const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
@@ -11,14 +12,30 @@ const FormBuilder = (props) => {
             values: Object.assign({}, ...fields.map((field) => ({[field.name]:field.initialValue || ''})))
         }
     );
+    const validator = useValidator();
 
     const handleChange = (event) => {
         event.preventDefault();
-
         const name = event.target.name;
         const value = event.target.value;
+        let error = '';
 
-        const error = 'dd';
+        const field = fields.find((field) => field.name === name);
+
+        if(field?.restriction){
+            error = validator.validate([
+                ...Object
+                    .entries(field.restriction)
+                    .map(([validateFn, val]) => validator[validateFn](val))
+            ])(value);
+
+            if(error)
+                return
+        }
+
+        if(field?.validation){
+
+        }
 
         setState((prevState) => ({
                 ...prevState,
@@ -34,12 +51,12 @@ const FormBuilder = (props) => {
         );
     };
 
+    //console.log(state)
+
     const handleSubmit = (event) => {
         event.preventDefault();
         state.isValid && onSubmit({...state});
     };
-
-    console.log(state);
 
     return (
         <div>
