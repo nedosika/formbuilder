@@ -13,6 +13,7 @@ function App() {
                     {
                         type: 'text',
                         name: 'firstName',
+                        label: 'First Name: ',
                         initialValue: 'qqq'
                     },
                     {
