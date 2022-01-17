@@ -5,12 +5,10 @@ import useValidator from "../hooks/useValidator";
 
 const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
-    const [state, setState] = React.useState(
-        {
-            errors: {},
-            values: Object.assign({}, ...fields.map((field) => ({[field.name]: field.initialValue || ''})))
-        }
-    );
+    const [state, setState] = React.useState({
+        errors: {},
+        values: Object.assign({}, ...fields.map((field) => ({[field.name]: field.initialValue || ''})))
+    });
     const validator = useValidator();
 
     const handleChange = (event) => {
@@ -20,7 +18,7 @@ const FormBuilder = (props) => {
 
         const field = fields.find((field) => field.name === name);
 
-        if(field.restriction){
+        if (field.restriction) {
             const errorMessage = validator.validate(
                 Object
                     .entries(field.restriction)
@@ -29,7 +27,7 @@ const FormBuilder = (props) => {
                     )
             )(value);
 
-            if(errorMessage)
+            if (errorMessage)
                 return;
         }
 
