@@ -23,18 +23,26 @@ const FormBuilder = (props) => {
         const field = fields.find((field) => field.name === name);
 
         if(field?.restriction){
-            error = validator.validate([
-                ...Object
+            error = validator.validate(
+                Object
                     .entries(field.restriction)
-                    .map(([validateFn, val]) => validator[validateFn](val))
-            ])(value);
+                    .map(([validateFn, value]) =>
+                        validator[validateFn](value)
+                    )
+            )(value);
 
             if(error)
-                return
+                return;
         }
 
         if(field?.validation){
-
+            error = validator.validate(
+                Object
+                    .entries(field.validation)
+                    .map(([validateFn, value]) =>
+                        validator[validateFn](value)
+                    )
+            )(value);
         }
 
         setState((prevState) => ({
@@ -46,7 +54,8 @@ const FormBuilder = (props) => {
                 errors: {
                     ...prevState.errors,
                     [name]: error
-                }
+                },
+                isValid: !Boolean(error)
             })
         );
     };

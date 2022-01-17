@@ -21,7 +21,8 @@ function App() {
                         name: 'io',
                         label: 'IO: ',
                         initialValue: '',
-                        restriction: { maxLength: 2 }
+                        restriction: { maxLength: 2 },
+                        validation: { minLength: 2 }
                     },
                     {
                         type: 'select',
@@ -31,7 +32,7 @@ function App() {
                     {
                         type: 'number',
                         name: 'age',
-                        validate: { min:2, max: 99 }
+                        validation: { min:2, max: 99 }
                     },
                     {
                         type:'email',
