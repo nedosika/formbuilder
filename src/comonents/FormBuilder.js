@@ -13,43 +13,29 @@ const FormBuilder = (props) => {
 
     const handleChange = (event) => {
         event.preventDefault();
+
         const name = event.target.name;
         const value = event.target.value;
 
         const field = fields.find((field) => field.name === name);
 
-        if (field.restriction) {
-            const errorMessage = validator.validate(
-                Object
-                    .entries(field.restriction)
-                    .map(([validateFn, value]) =>
-                        validator[validateFn](value)
-                    )
-            )(value);
+        if (field.restriction && validator
+            .validate(Object.entries(field.restriction).map(([validateFn, value]) =>
+                validator[validateFn](value)))(value)
+        )
+            return;
 
-            if (errorMessage)
-                return;
-        }
+        const errorMessage = field.validation && validator.validate(
+            Object.entries(field.validation).map(([validateFn, value]) => validator[validateFn](value))
+        )(value);
+
+        const error = errorMessage
+            ? {[name]: errorMessage}
+            : {}
 
         setState((prevState) => {
-            const errorMessage = field.validation && validator.validate(
-                Object
-                    .entries(field.validation)
-                    .map(([validateFn, value]) =>
-                        validator[validateFn](value)
-                    )
-            )(value);
 
             delete prevState.errors[name];
-
-            const errors = errorMessage
-                ? {
-                    ...prevState.errors,
-                    [name]: errorMessage
-                }
-                : {
-                    ...prevState.errors
-                }
 
             return ({
                 ...prevState,
@@ -57,17 +43,20 @@ const FormBuilder = (props) => {
                     ...prevState.values,
                     [name]: value
                 },
-                errors
+                errors: {
+                    ...prevState.errors,
+                    ...error
+                }
             });
         });
     };
-
-    console.log(state)
 
     const handleSubmit = (event) => {
         event.preventDefault();
         onSubmit({...state});
     };
+
+    console.log(state)
 
     return (
         <div>
@@ -86,6 +75,7 @@ const FormBuilder = (props) => {
             </form>
         </div>
     );
-};
+}
+
 
 export default FormBuilder;
