@@ -17,6 +17,13 @@ function App() {
                         initialValue: 'qqq'
                     },
                     {
+                        type: 'text',
+                        name: 'secondName',
+                        label: 'Second Name: ',
+                        initialValue: '',
+                        validation: { maxLength: 10 }
+                    },
+                    {
                         type: 'alphabet',
                         name: 'io',
                         label: 'IO: ',

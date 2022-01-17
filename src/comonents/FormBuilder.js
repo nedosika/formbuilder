@@ -7,9 +7,8 @@ const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
     const [state, setState] = React.useState(
         {
-            isValid: true,
             errors: {},
-            values: Object.assign({}, ...fields.map((field) => ({[field.name]:field.initialValue || ''})))
+            values: Object.assign({}, ...fields.map((field) => ({[field.name]: field.initialValue || ''})))
         }
     );
     const validator = useValidator();
@@ -18,12 +17,11 @@ const FormBuilder = (props) => {
         event.preventDefault();
         const name = event.target.name;
         const value = event.target.value;
-        let error = '';
 
         const field = fields.find((field) => field.name === name);
 
-        if(field?.restriction){
-            error = validator.validate(
+        if(field.restriction){
+            const errorMessage = validator.validate(
                 Object
                     .entries(field.restriction)
                     .map(([validateFn, value]) =>
@@ -31,40 +29,46 @@ const FormBuilder = (props) => {
                     )
             )(value);
 
-            if(error)
+            if(errorMessage)
                 return;
         }
 
-        if(field?.validation){
-            error = validator.validate(
+        setState((prevState) => {
+            const errorMessage = field.validation && validator.validate(
                 Object
                     .entries(field.validation)
                     .map(([validateFn, value]) =>
                         validator[validateFn](value)
                     )
             )(value);
-        }
 
-        setState((prevState) => ({
+            delete prevState.errors[name];
+
+            const errors = errorMessage
+                ? {
+                    ...prevState.errors,
+                    [name]: errorMessage
+                }
+                : {
+                    ...prevState.errors
+                }
+
+            return ({
                 ...prevState,
                 values: {
                     ...prevState.values,
                     [name]: value
                 },
-                errors: {
-                    ...prevState.errors,
-                    [name]: error
-                },
-                isValid: !Boolean(error)
-            })
-        );
+                errors
+            });
+        });
     };
 
-    //console.log(state)
+    console.log(state)
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        state.isValid && onSubmit({...state});
+        onSubmit({...state});
     };
 
     return (
@@ -80,7 +84,7 @@ const FormBuilder = (props) => {
                         error={state.errors[field.name]}
                     />)
                 }
-                <input type='submit' disabled={!state.isValid}/>
+                <input type='submit'/>
             </form>
         </div>
     );

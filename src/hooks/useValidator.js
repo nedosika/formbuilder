@@ -36,7 +36,7 @@ const useValidator = (options) => {
     }
 
     const validate = (validators) => (value) => {
-        let errorMessage;
+        let errorMessage = '';
 
         const result = validators
             .map((validator) => {
