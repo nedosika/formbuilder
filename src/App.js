@@ -13,20 +13,20 @@ function App() {
                     {
                         type: 'text',
                         name: 'firstName',
-                        label: 'First Name: ',
+                        label: 'First Name:',
                         initialValue: 'qqq'
                     },
                     {
                         type: 'text',
                         name: 'secondName',
-                        label: 'Second Name: ',
+                        label: 'Second Name:',
                         initialValue: '',
                         validation: { maxLength: 10 }
                     },
                     {
                         type: 'alphabet',
                         name: 'io',
-                        label: 'IO: ',
+                        label: 'IO:',
                         initialValue: '',
                         restriction: { maxLength: 2 },
                         validation: { minLength: 2 }
@@ -34,16 +34,19 @@ function App() {
                     {
                         type: 'select',
                         name: 'color',
+                        label: 'Color:',
                         values: ['red', 'green', 'blue']
                     },
                     {
                         type: 'number',
                         name: 'age',
+                        label: 'Age:',
                         validation: { min:2, max: 99 }
                     },
                     {
                         type:'email',
                         name:'email',
+                        label: 'Email:',
                     },
                 ]
             }}

@@ -1,15 +1,17 @@
 import React from 'react';
+import String from "./String";
+import Select from "./Select";
 
 const Field = (props) => {
-    const {name, error, label, value, onChange} = props;
-
-    return (
-        <div>
-            <label htmlFor={name}>{label}</label>
-            <input onChange={onChange} value={value} name={name}/>
-            {error && (<div style={{color: 'red'}}>{error}</div>)}
-        </div>
-    );
+    switch (props.type){
+        case 'text':
+            return <String {...props}/>
+        case 'select':
+            return <Select {...props}/>
+        case 'textarea':
+            return <textarea {...props}/>
+        default: return null
+    }
 };
 
 export default Field;
