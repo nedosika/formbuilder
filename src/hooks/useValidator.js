@@ -1,30 +1,30 @@
 const useValidator = (options) => {
     const maxLength = (maxLength, message = 'Too long') => (value) =>
-            value.length > maxLength && message
+        value.length > maxLength && message
 
     const minLength = (minLength, message = 'Too short') => (value) =>
-            value.length < minLength && message
+        value.length < minLength && message
 
     const max = (max, message = 'Too big') => (value) =>
-            value > max && message
+        value > max && message
 
     const min = (min, message = 'Too small') => (value) =>
-            value < min && message
+        value < min && message
 
     const alphabet = (message = 'Must be a alphabet') => (value) =>
-            !/^[a-z]*$/i.test(value) && message
+        !/^[a-zа-я]*$/i.test(value) && message
 
     const required = (message = 'Must be required') => (value) =>
-            value.length === 0 && message
+        value.length === 0 && message
 
     const email = (message = 'Email is wrong') => (value) =>
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) && message
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) && message
 
     const number = (message = 'Must be a number') => (value) =>
-            /\D/.test(value) && message
+        /\D/.test(value) && message
 
     const pattern = (pattern, message = 'Error') => (value) =>
-            pattern.test(value) && message
+        pattern.test(value) && message
 
     const validate = (validators) => (value) => {
         let errorMessage = '';

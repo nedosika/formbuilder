@@ -1,5 +1,5 @@
 import React from 'react';
-import {omit} from "lodash";
+import {omit, entries} from "lodash";
 
 import Field from "./Field";
 import useValidator from "../hooks/useValidator";
@@ -25,15 +25,15 @@ const FormBuilder = (props) => {
 
         const field = fields.find((field) => field.name === name);
 
-        if (field.restriction && validator.validate(
-            Object.entries(field.restriction).map(([validateFn, value]) =>
-                validator[validateFn](value)))
-        (value)) return;
+        if (validator.validate(entries(field.restriction).map(([validateFn, value]) =>
+            validator[validateFn](value)))(value))
+            return;
 
-        const errorMessage = field.validation && validator.validate(
-            Object.entries(field.validation).map(([validateFn, value]) =>
-                validator[validateFn](value)))
-        (value);
+        if (validator[field.type] && validator.validate([validator[field.type]()])(value))
+            return;
+
+        const errorMessage = validator.validate(entries(field.validation).map(([validateFn, value]) =>
+            validator[validateFn](value)))(value);
 
         const error = errorMessage ? {[name]: errorMessage} : {}
 
