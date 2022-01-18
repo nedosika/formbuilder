@@ -48,6 +48,11 @@ function App() {
                         name:'email',
                         label: 'Email:',
                     },
+                    {
+                        type:'textarea',
+                        name:'description',
+                        label: 'Description:',
+                    },
                 ]
             }}
         />

@@ -51,7 +51,7 @@ const FormBuilder = (props) => {
 
     }
 
-    console.log(state)
+    //console.log(state)
 
     return (<div>
         <form onSubmit={handleSubmit}>
