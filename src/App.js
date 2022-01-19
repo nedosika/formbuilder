@@ -14,14 +14,15 @@ function App() {
                         type: 'text',
                         name: 'firstName',
                         label: 'First Name:',
-                        initialValue: 'qqq'
+                        initialValue: 'qqq',
+                        validation: { minLength: 3, maxLength: 10 }
                     },
                     {
                         type: 'text',
                         name: 'secondName',
                         label: 'Second Name:',
                         initialValue: '',
-                        validation: { maxLength: 10 }
+                        validation: { minLength: 3, maxLength: 10 }
                     },
                     {
                         type: 'alphabet',
@@ -29,19 +30,21 @@ function App() {
                         label: 'IO:',
                         initialValue: '',
                         restriction: { maxLength: 2 },
-                        validation: { minLength: 2 }
+                        validation: { minLength: 1 }
                     },
                     {
                         type: 'select',
                         name: 'color',
                         label: 'Color:',
+                        initialValue: '1',
                         values: ['red', 'green', 'blue']
                     },
                     {
                         type: 'number',
                         name: 'age',
                         label: 'Age:',
-                        validation: { min:2, max: 99 }
+                        validation: { min:2, max: 99 },
+                        restriction: { maxLength: 3 },
                     },
                     {
                         type:'email',
@@ -52,6 +55,7 @@ function App() {
                         type:'textarea',
                         name:'description',
                         label: 'Description:',
+                        validation: { alphabet: true }
                     },
                 ]
             }}

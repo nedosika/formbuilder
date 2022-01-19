@@ -1,69 +1,53 @@
 import React from 'react';
-import {omit, entries} from "lodash";
 
 import Field from "./Field";
+import {entries, omit} from "lodash";
 import useValidator from "../hooks/useValidator";
 
 const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
     const [state, setState] = React.useState({
-        errors: {},
-        values: Object.assign({}, ...fields.map((field) => ({[field.name]: field.initialValue || ''})))
+        values: Object.assign({}, ...fields.map((field) => ({[field.name]: field.initialValue || ''}))),
+        errors: {}
     });
+
     const validator = useValidator();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        onSubmit({...state});
+        onSubmit(state);
     };
 
-    const handleChange = (event) => {
+    const handleChange = (validation, restriction) => (event) => {
         const name = event.target.name;
         const value = event.target.value;
 
-        const field = fields.find((field) => field.name === name);
-
-        if (validator.validate(entries(field.restriction).map(([validateFn, value]) =>
+        if (validator.validate(entries(restriction).map(([validateFn, value]) =>
             validator[validateFn](value)))(value))
             return;
 
-        if (validator[field.type] && validator.validate([validator[field.type]()])(value))
-            return;
-
-        const errorMessage = validator.validate(entries(field.validation).map(([validateFn, value]) =>
+        const errorMessage = validator.validate(entries(validation).map(([validateFn, value]) =>
             validator[validateFn](value)))(value);
-
-        const error = errorMessage ? {[name]: errorMessage} : {}
 
         setState((prevState) => ({
             ...prevState,
-            values: {
-                ...prevState.values,
-                [name]: value
-            },
-            errors: {
-                ...omit(prevState.errors, [name]),
-                ...error
-            }
+            values: {...prevState.values, [name]: value},
+            errors: {...omit(prevState.errors, [name]), ...(errorMessage ? {[name]: errorMessage} : {})}
         }));
-
     }
 
-    //console.log(state)
+    console.log(state)
 
     return (<div>
         <form onSubmit={handleSubmit}>
             {
                 fields.map((field) =>
                     <Field
+                        {...field}
                         key={field.name}
-                        name={field.name}
-                        label={field.label}
-                        type={field.type}
-                        values={field.values}
-                        onChange={handleChange}
                         value={state.values[field.name]}
                         error={state.errors[field.name]}
+                        onChange={handleChange}
                     />
                 )
             }
