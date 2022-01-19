@@ -11,18 +11,17 @@ const useValidator = (options) => {
     const min = (min, message = 'Too small') => (value) =>
         value < min && message
 
-    const alphabet = (isAlphabet, message = 'Should be an alphabet') => (value) => {
-        return !/^[a-zа-я]*$/i.test(value) && message
-    }
+    const alphabet = (isAlphabet, message = 'Should be an alphabet') => (value) =>
+        isAlphabet && !/^[a-zа-я]*$/i.test(value) && message
 
     const required = (isRequired, message = 'Should be required') => (value) =>
-        value.length === 0 && message
+        isRequired && value.length === 0 && message
 
     const email = (isEmail, message = 'Email is wrong') => (value) =>
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) && message
+        isEmail && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$|^$/.test(value) && message
 
     const number = (isNumber, message = 'Should be a number') => (value) =>
-        /\D/.test(value) && message
+        isNumber && /\D/.test(value) && message
 
     const pattern = (pattern, message = 'Error') => (value) =>
         pattern.test(value) && message

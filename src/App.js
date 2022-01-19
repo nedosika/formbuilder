@@ -15,7 +15,6 @@ function App() {
                         name: 'firstName',
                         label: 'First Name:',
                         initialValue: 'qqq',
-                        required: true,
                         validation: { minLength: 3, maxLength: 10 }
                     },
                     {
@@ -52,13 +51,14 @@ function App() {
                         type:'email',
                         name:'email',
                         label: 'Email:',
+                        required: true
                     },
                     {
                         type:'textarea',
                         name:'description',
                         label: 'Description:',
-                        required: true,
-                        restriction: { alphabet: true }
+                        restriction: { alphabet: true },
+                        validation: { required: true }
                     },
                 ]
             }}
