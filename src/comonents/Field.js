@@ -5,19 +5,21 @@ import Select from "./Select";
 import TextArea from "./TextArea";
 
 const Field = (props) => {
-    switch (props.type) {
+    const {type, onChange, restriction, validation} = props;
+
+    switch (type) {
         case 'alphabet':
-            return <Input{...props} restriction={{...props.restriction, alphabet: true}}/>
+            return <Input{...props} onChange={onChange(validation, {...restriction, alphabet: true})}/>
         case 'number':
-            return <Input {...props} restriction={{...props.restriction, number: true}}/>
+            return <Input {...props} onChange={onChange(validation, {...restriction, number: true})}/>
         case 'email':
-            return <Input{...props} validation={{...props.validation, email: true}}/>
+            return <Input{...props} onChange={onChange({...validation, email: true}, restriction)}/>
         case 'select':
-            return <Select {...props}/>
+            return <Select {...props} onChange={onChange(validation, restriction)}/>
         case 'textarea':
-            return <TextArea {...props}/>
+            return <TextArea {...props} onChange={onChange(validation, restriction)}/>
         default:
-            return <Input {...props}/>
+            return <Input {...props} onChange={onChange(validation, restriction)}/>
     }
 }
 

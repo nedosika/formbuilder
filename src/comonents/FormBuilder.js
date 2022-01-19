@@ -44,6 +44,8 @@ const FormBuilder = (props) => {
         });
     }
 
+
+
     console.log(state)
 
     return (<div>

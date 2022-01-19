@@ -1,13 +1,13 @@
 import React from 'react';
 
 const Select = (props) => {
-    const {name, error, label, value, onChange, values, restriction, validation} = props;
+    const {name, error, label, value, onChange, values} = props;
 
     return (
         <div>
             <label htmlFor={name}>{label}</label>
             <select
-                onChange={onChange(validation, restriction)}
+                onChange={onChange}
                 name={name}
                 value={value}>
                 {values.map((text, value) =>
