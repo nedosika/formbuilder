@@ -15,12 +15,14 @@ function App() {
                         name: 'firstName',
                         label: 'First Name:',
                         initialValue: 'qqq',
+                        required: true,
                         validation: { minLength: 3, maxLength: 10 }
                     },
                     {
                         type: 'text',
                         name: 'secondName',
                         label: 'Second Name:',
+                        required: true,
                         initialValue: '',
                         validation: { minLength: 3, maxLength: 10 }
                     },
@@ -55,7 +57,8 @@ function App() {
                         type:'textarea',
                         name:'description',
                         label: 'Description:',
-                        validation: { alphabet: true }
+                        required: true,
+                        restriction: { alphabet: true }
                     },
                 ]
             }}

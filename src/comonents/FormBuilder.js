@@ -8,14 +8,15 @@ const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
     const [state, setState] = React.useState({
         values: Object.assign({}, ...fields.map((field) => ({[field.name]: field.initialValue || ''}))),
-        errors: {}
+        errors: {},
+        isValid: true
     });
 
     const validator = useValidator();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        onSubmit(state);
+        state.isValid && onSubmit(state);
     };
 
     const handleChange = (validation, restriction) => (event) => {
@@ -29,11 +30,18 @@ const FormBuilder = (props) => {
         const errorMessage = validator.validate(entries(validation).map(([validateFn, value]) =>
             validator[validateFn](value)))(value);
 
-        setState((prevState) => ({
-            ...prevState,
-            values: {...prevState.values, [name]: value},
-            errors: {...omit(prevState.errors, [name]), ...(errorMessage ? {[name]: errorMessage} : {})}
-        }));
+        setState((prevState) => {
+            const values = {...prevState.values, [name]: value};
+            const errors = {...omit(prevState.errors, [name]), ...(errorMessage ? {[name]: errorMessage} : {})};
+            const isValid = !entries(errors).length;
+
+            return {
+                ...prevState,
+                values,
+                errors,
+                isValid
+            }
+        });
     }
 
     console.log(state)
@@ -51,7 +59,7 @@ const FormBuilder = (props) => {
                     />
                 )
             }
-            <input type='submit'/>
+            <input type='submit' disabled={!state.isValid}/>
         </form>
     </div>);
 }
