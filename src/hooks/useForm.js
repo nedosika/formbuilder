@@ -1,59 +1,59 @@
 import {useState} from "react";
+import useValidator from "./useValidator";
+import {assign, entries, omit, isEmpty} from "lodash";
 
-const useForm = (initialFields = {}) => {
-    const form = Object.assign({},
-        ...Object.entries(initialFields).map((field) => {
-            const name = field[0];
-            const value = field[1];
+const useForm = (initialFields = {}, validation = []) => {
+    const [state, setState] = useState(initialFields);
+    const validator = useValidator();
+
+    const handleChange = (validation, restriction) => (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+
+        if (validator.validate(entries(restriction).map(([validateFn, value]) =>
+            validator[validateFn](value)))(value))
+            return;
+
+        const errorMessage = validator.validate(entries(validation).map(([validateFn, value]) =>
+            validator[validateFn](value)))(value);
+
+        setState((prevState) => {
+            const values = {...prevState.values, [name]: value};
+            const errors = {...omit(prevState.errors, [name]), ...(errorMessage ? {[name]: errorMessage} : {})};
+            const isValid = !entries(errors).length;
 
             return {
-                [name]: {
-                    value: value.value,
-                    validators: value.validators,
-                    onChange: (event) => handleInput(name, event)
-                },
+                ...prevState,
+                values,
+                errors,
+                isValid
             }
-        })
-    );
-
-    const [fields, setState] = useState(form);
-    const [isValid, setFormValid] = useState(true);
-
-    const validateField = (field) => {
-        let isValid = true, errorMessage = '';
-        const {value, validators} = field;
-
-        const results = validators?.map((validator) => {
-                const result = validator(value);
-                return typeof result === 'string' ? result : '';
-            })
-            .filter(message => message !== '');
-
-        if (results?.length) {
-            isValid = false;
-            errorMessage = results[0];
-        }
-
-        return {...field, isValid, errorMessage}
+        });
     }
 
-    const handleInput = (fieldName, event) => {
-        const field = fields[fieldName];
-        const value = event.target.value;
-        const validatedField = validateField({...field, value});
+    const validateAll = () => assign({}, ...validation.map((field) =>
+        assign({}, ...entries(field).map(([fieldName, rules]) => {
+            const errorMessage = validator.validate(entries(rules).map(([validateFn, value]) =>
+                validator[validateFn](value)))(state.values[fieldName])
 
-        setState((prevState) => ({
-            ...prevState,
-            [fieldName]: {...validatedField, value}
-        }));
-    };
+            return (errorMessage ? {[fieldName]: errorMessage} : {})
+        }))
+    ));
 
     const handleSubmit = (onSubmit) => (event) => {
         event.preventDefault();
-        onSubmit({...fields});
+
+        const errors = validateAll();
+
+        if (!isEmpty(errors)) {
+            setState((prevState) => ({...prevState, errors, isValid: false}));
+            return;
+        }
+
+        onSubmit(state);
     }
 
-    return {fields, isValid, handleSubmit}
+    return {form: {...state, handleChange}, handleSubmit}
 }
 
 export default useForm;
