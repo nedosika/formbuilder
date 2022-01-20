@@ -40,6 +40,7 @@ const FormBuilder = (props) => {
                     isValid
                 }
             });
+
     }
 
     const handleSubmit = (event) => {
