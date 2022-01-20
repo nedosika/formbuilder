@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {assign, isEmpty, omit} from "lodash";
+import {assign, entries, isEmpty, omit} from "lodash";
 
 import Field from "./Field";
 import {restrict, validate} from "../helpers";
@@ -8,13 +8,20 @@ import {restrict, validate} from "../helpers";
 const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
     const [state, setState] = useState({
-        values: assign({}, ...fields.map((field) => ({[field.name]: field.initialValue || ''}))),
+        values: assign(
+            {},
+            ...fields.map((field) => ({
+                [field.name]: field.initialValue || ''
+            }))
+        ),
         errors: {},
         isValid: true
     });
 
     const handleChange = (validation, restriction) => ({target: {name, value}}) => {
-        if (restrict(value, restriction))
+        const isRestricted = restrict(value, restriction)
+
+        if (!isRestricted)
             setState((prevState) => {
                 const values = {
                     ...prevState.values,
@@ -22,7 +29,7 @@ const FormBuilder = (props) => {
                 };
                 const errors = {
                     ...omit(prevState.errors, [name]),
-                    ...validate({[name]: value}, [{[name]: validation}])
+                    ...validate({name, value, validation})
                 };
                 const isValid = isEmpty(errors);
 
@@ -38,7 +45,12 @@ const FormBuilder = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const errors = validate(state.values, fields.map((field) => ({[field.name]: field.validation})));
+        const errors = assign({}, ...entries(state.values).map(([name, value]) =>
+            validate({
+                name,
+                value,
+                validation: assign({}, ...fields.map((field) => ({[field.name]: field.validation})))[name]
+            })))
 
         if (isEmpty(errors)) {
             onSubmit(state);

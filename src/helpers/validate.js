@@ -1,16 +1,12 @@
-import {assign, entries} from "lodash";
+import {entries} from "lodash";
 
 import useValidator from "../hooks/useValidator";
 
-export default function (values, validation){
+export default function (field){
     const validator = useValidator();
 
-    return assign({}, ...validation.map((field) =>
-        assign({}, ...entries(field).map(([fieldName, rules]) => {
-            const errorMessage = validator.validate(entries(rules).map(([validateFn, value]) =>
-                validator[validateFn](value)))(values[fieldName])
+    const errorMessage = validator.validate(entries(field.validation).map(([validateFn, value]) =>
+        validator[validateFn](value)))(field.value);
 
-            return (errorMessage ? {[fieldName]: errorMessage} : {})
-        }))
-    ));
+    return (errorMessage ? {[field.name]: errorMessage} : {})
 }
