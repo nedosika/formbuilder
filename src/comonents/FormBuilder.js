@@ -1,33 +1,66 @@
-import React from 'react';
+import React, {useState} from 'react';
+
+import {assign, isEmpty, omit} from "lodash";
 
 import Field from "./Field";
-import useForm from "../hooks/useForm";
+import {restrict, validate} from "../helpers";
 
 const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
-    const {form, handleSubmit} = useForm(
-        {
-            values: Object.assign({}, ...fields.map((field) => ({[field.name]: field.initialValue || ''}))),
-            errors: {},
-            isValid: true
-        },
-        fields.map((field) => ({[field.name]: field.validation}))
-    )
+    const [state, setState] = useState({
+        values: assign({}, ...fields.map((field) => ({[field.name]: field.initialValue || ''}))),
+        errors: {},
+        isValid: true
+    });
+
+    const handleChange = (validation, restriction) => ({target: {name, value}}) => {
+        if (restrict(value, restriction))
+            setState((prevState) => {
+                const values = {
+                    ...prevState.values,
+                    [name]: value
+                };
+                const errors = {
+                    ...omit(prevState.errors, [name]),
+                    ...validate({[name]: value}, [{[name]: validation}])
+                };
+                const isValid = isEmpty(errors);
+
+                return {
+                    ...prevState,
+                    values,
+                    errors,
+                    isValid
+                }
+            });
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const errors = validate(state.values, fields.map((field) => ({[field.name]: field.validation})));
+
+        if (isEmpty(errors)) {
+            onSubmit(state);
+        } else {
+            setState((prevState) => ({...prevState, errors, isValid: false}));
+        }
+    }
 
     return (<div>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={handleSubmit} noValidate>
             {
                 fields.map((field) =>
                     <Field
                         {...field}
                         key={field.name}
-                        value={form.values[field.name]}
-                        error={form.errors[field.name]}
-                        onChange={form.handleChange}
+                        value={state.values[field.name]}
+                        error={state.errors[field.name]}
+                        onChange={handleChange}
                     />
                 )
             }
-            <input type='submit' disabled={!form.isValid}/>
+            <input type='submit' disabled={!state.isValid}/>
         </form>
     </div>);
 }
