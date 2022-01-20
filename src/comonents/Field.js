@@ -9,7 +9,7 @@ const Field = (props) => {
 
     switch (type) {
         case 'alphabet':
-            return <Input{...props} onChange={onChange(validation, {...restriction, alphabet: true})}/>
+            return <Input {...props} onChange={onChange(validation, {...restriction, alphabet: true})}/>
         case 'number':
             return <Input {...props} onChange={onChange(validation, {...restriction, number: true})}/>
         case 'email':

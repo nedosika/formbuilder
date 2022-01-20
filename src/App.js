@@ -26,6 +26,15 @@ function App() {
                         validation: { minLength: 3, maxLength: 10 }
                     },
                     {
+                        type: 'password',
+                        name: 'password',
+                        label: 'Password:',
+                        autoComplete: 'new-password',
+                        required: true,
+                        initialValue: '',
+                        validation: { minLength: 8, maxLength: 20 }
+                    },
+                    {
                         type: 'alphabet',
                         name: 'io',
                         label: 'IO:',

@@ -15,7 +15,7 @@ const FormBuilder = (props) => {
     )
 
     return (<div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
             {
                 fields.map((field) =>
                     <Field
