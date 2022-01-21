@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-
 import {assign, entries, isEmpty, omit} from "lodash";
 
 import Field from "./Field";
@@ -18,8 +17,8 @@ const FormBuilder = (props) => {
         isValid: true
     });
 
-    const handleChange = (validation, restriction) => ({target: {name, value}}) => {
-        const isRestricted = restrict(value, restriction)
+    const handleChange = ({target: {name, value}}, validation, restriction) => {
+        const isRestricted = restrict(value, restriction);
 
         if (!isRestricted)
             setState((prevState) => {
@@ -40,8 +39,7 @@ const FormBuilder = (props) => {
                     isValid
                 }
             });
-
-    }
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -51,30 +49,33 @@ const FormBuilder = (props) => {
                 name,
                 value,
                 validation: assign({}, ...fields.map((field) => ({[field.name]: field.validation})))[name]
-            })))
+            })));
 
         if (isEmpty(errors)) {
             onSubmit(state);
         } else {
             setState((prevState) => ({...prevState, errors, isValid: false}));
         }
-    }
+    };
 
-    return (<div>
-        <form onSubmit={handleSubmit} noValidate>
-            {
-                fields.map((field) =>
-                    <Field
-                        {...field}
-                        key={field.name}
-                        value={state.values[field.name]}
-                        error={state.errors[field.name]}
-                        onChange={handleChange}
-                    />
-                )
-            }
-            <input type='submit' disabled={!state.isValid}/>
-        </form>
-    </div>);
-}
+    return (
+        <div>
+            <form onSubmit={handleSubmit} noValidate>
+                {
+                    fields.map((field) =>
+                        <Field
+                            {...field}
+                            key={field.name}
+                            value={state.values[field.name]}
+                            error={state.errors[field.name]}
+                            onChange={handleChange}
+                        />
+                    )
+                }
+                <input type='submit' disabled={!state.isValid}/>
+            </form>
+        </div>
+    );
+};
+
 export default FormBuilder;
