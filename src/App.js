@@ -1,5 +1,7 @@
 import React from "react";
 
+import {FIELDS} from "./constants";
+
 import FormBuilder from "./comonents/FormBuilder";
 
 function App() {
@@ -11,50 +13,70 @@ function App() {
             config={{
                 fields: [
                     {
-                        type: 'text',
+                        type: FIELDS.text.type,
                         name: 'firstName',
                         label: 'First Name:',
                         initialValue: 'qqq',
-                        validation: { minLength: 3, maxLength: 10 }
+                        validation: {
+                            [FIELDS.text.validators.minLength]: 3,
+                            [FIELDS.text.validators.maxLength]: 10
+                        }
                     },
                     {
-                        type: 'text',
+                        type: FIELDS.text.type,
                         name: 'secondName',
                         label: 'Second Name:',
+                        placeholder: 'Second Name',
                         required: true,
                         initialValue: '',
-                        validation: { minLength: 3, maxLength: 10 }
+                        validation: {
+                            [FIELDS.text.validators.minLength]: 3,
+                            [FIELDS.text.validators.maxLength]: 10,
+                            [FIELDS.text.validators.required]: true
+                        }
                     },
                     {
-                        type: 'password',
+                        type: FIELDS.password.type,
                         name: 'password',
                         label: 'Password:',
                         autoComplete: 'new-password',
                         required: true,
                         initialValue: '',
-                        validation: { minLength: 8, maxLength: 20 }
+                        validation: {
+                            [FIELDS.password.validators.minLength]: 8,
+                            [FIELDS.password.validators.maxLength]: 10
+                        }
                     },
                     {
-                        type: 'alphabet',
+                        type: FIELDS.alphabet.type,
                         name: 'io',
                         label: 'IO:',
                         initialValue: '',
-                        restriction: { maxLength: 2 },
-                        validation: { minLength: 1 }
+                        validation: {
+                            [FIELDS.alphabet.validators.minLength]: 1
+                        },
+                        restriction: {
+                            [FIELDS.alphabet.restrictions.maxLength]: 10
+                        },
                     },
                     {
-                        type: 'select',
+                        type: FIELDS.select.type,
                         name: 'color',
                         label: 'Color:',
                         initialValue: '1',
                         values: ['red', 'green', 'blue']
                     },
                     {
-                        type: 'number',
+                        type: FIELDS.number.type,
                         name: 'age',
                         label: 'Age:',
-                        validation: { min:2, max: 99 },
-                        restriction: { maxLength: 3 },
+                        validation: {
+                            [FIELDS.number.validators.min]: 2,
+                            [FIELDS.number.validators.max]: 99
+                        },
+                        restriction: {
+                            [FIELDS.number.restrictions.maxLength]: 10
+                        }
                     },
                     {
                         type:'email',
@@ -63,11 +85,15 @@ function App() {
                         required: true
                     },
                     {
-                        type:'textarea',
-                        name:'description',
+                        type: FIELDS.textarea.type,
+                        name: 'description',
                         label: 'Description:',
-                        restriction: { alphabet: true },
-                        validation: { required: true }
+                        validation: {
+                            [FIELDS.textarea.validators.required]: true
+                        },
+                        restriction: {
+                            [FIELDS.textarea.validators.alphabet]: true,
+                        }
                     },
                 ]
             }}

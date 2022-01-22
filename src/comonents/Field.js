@@ -3,6 +3,7 @@ import React from 'react';
 import Input from "./Input";
 import Select from "./Select";
 import TextArea from "./TextArea";
+import {VALIDATORS} from "../hooks/useValidator";
 
 const Field = (props) => {
     const {type, restriction, validation} = props;
