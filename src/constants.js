@@ -1,13 +1,13 @@
 export const VALIDATORS = {
-    minLength: "minLength",
-    maxLength: "maxLength",
     max: "max",
     min: "min",
     email: "email",
-    required: "required",
-    alphabet: "alphabet",
     number: "number",
     pattern: "pattern",
+    required: "required",
+    alphabet: "alphabet",
+    minLength: "minLength",
+    maxLength: "maxLength",
 };
 
 export const FIELDS = {
@@ -47,7 +47,8 @@ export const FIELDS = {
         },
         restrictions: {
             maxLength: VALIDATORS.maxLength,
-            pattern: VALIDATORS.pattern
+            pattern: VALIDATORS.pattern,
+            alphabet: VALIDATORS.alphabet
         }
     },
     select : {
@@ -66,14 +67,16 @@ export const FIELDS = {
         },
         restrictions: {
             maxLength: VALIDATORS.maxLength,
-            pattern: VALIDATORS.pattern
+            pattern: VALIDATORS.pattern,
+            number: VALIDATORS.number
         }
     },
     email: {
         type: "email",
         validators: {
             required: VALIDATORS.required,
-            pattern: VALIDATORS.pattern
+            pattern: VALIDATORS.pattern,
+            email: VALIDATORS.email
         },
         restrictions: {
             maxLength: VALIDATORS.maxLength,
@@ -84,6 +87,7 @@ export const FIELDS = {
         type: "textarea",
         validators: {
             required: VALIDATORS.required,
+            alphabet: VALIDATORS.alphabet,
             pattern: VALIDATORS.pattern
         },
         restrictions: {

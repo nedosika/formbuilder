@@ -72,10 +72,10 @@ function App() {
                         label: 'Age:',
                         validation: {
                             [FIELDS.number.validators.min]: 2,
-                            [FIELDS.number.validators.max]: 99
+                            [FIELDS.number.validators.max]: 88
                         },
                         restriction: {
-                            [FIELDS.number.restrictions.maxLength]: 10
+                            [FIELDS.number.restrictions.maxLength]: 2
                         }
                     },
                     {
@@ -89,10 +89,11 @@ function App() {
                         name: 'description',
                         label: 'Description:',
                         validation: {
-                            [FIELDS.textarea.validators.required]: true
+                            [FIELDS.textarea.validators.required]: true,
+                            [FIELDS.textarea.restrictions.alphabet]: true,
                         },
                         restriction: {
-                            [FIELDS.textarea.validators.alphabet]: true,
+                            [FIELDS.textarea.restrictions.alphabet]: true,
                         }
                     },
                 ]
