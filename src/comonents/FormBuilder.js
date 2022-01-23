@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {assign, entries, isEmpty, omit} from "lodash";
+import {isEmpty} from "lodash";
 
 import Fields from "./Field";
 import {restrict, validate} from "../helpers";
@@ -7,7 +7,7 @@ import {restrict, validate} from "../helpers";
 const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
     const [state, setState] = useState({
-        values: assign(
+        values: Object.assign(
             {},
             ...fields.map((field) => ({
                 [field.name]: field.initialValue
@@ -64,11 +64,11 @@ const FormBuilder = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const errors = assign({}, ...entries(state.values).map(([name, value]) =>
+        const errors = Object.assign({}, ...Object.entries(state.values).map(([name, value]) =>
             validate({
                 name,
                 value,
-                validation: assign({}, ...fields.map((field) => ({[field.name]: field.validation})))[name]
+                validation: Object.assign({}, ...fields.map((field) => ({[field.name]: field.validation})))[name]
             })));
 
         if (isEmpty(errors)) {
