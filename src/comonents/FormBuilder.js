@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {isEmpty} from "lodash";
+import {isEmpty, omit} from "lodash";
 
 import Fields from "./Field";
-import {restrict, validate} from "../helpers";
+import validate from "../helpers/validate";
+import {VALIDATION_TYPES} from "../constants";
 
 const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
@@ -17,59 +18,37 @@ const FormBuilder = (props) => {
         isValid: true
     });
 
-    console.log(state)
+    const handleChange = (field) => {
+        if (isEmpty(validate([field], VALIDATION_TYPES.restriction)))
+            setState((prevState) => {
+                const values = {
+                    ...prevState.values,
+                    [field.name]: field.value
+                };
+                const errors = {
+                    ...omit(prevState.errors, [field.name]),
+                    ...validate([field], VALIDATION_TYPES.validation)
+                };
+                const isValid = isEmpty(errors);
 
-    const handleChange = (field, validation, restriction) => {
-        console.log(field)
-
-        // const isRestricted = restrict(value, restriction);
-        //
-        // if (!isRestricted)
-        //     setState((prevState) => {
-        //         const values = {
-        //             ...prevState.values,
-        //             [field.name]: field.value
-        //         };
-        //         const errors = {
-        //             ...omit(prevState.errors, [field.name]),
-        //             ...validate(field)
-        //         };
-        //         const isValid = isEmpty(errors);
-        //
-        //         return {
-        //             ...prevState,
-        //             values,
-        //             errors,
-        //             isValid
-        //         }
-        //     });
-
-        setState((prevState) => {
-            const values = {
-                ...prevState.values,
-                [field.name]: field.value
-            };
-            const errors = {};
-            const isValid = true;
-
-            return {
-                ...prevState,
-                values,
-                errors,
-                isValid
-            }
-        });
+                return {
+                    ...prevState,
+                    values,
+                    errors,
+                    isValid
+                }
+            });
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const errors = Object.assign({}, ...Object.entries(state.values).map(([name, value]) =>
-            validate({
-                name,
-                value,
-                validation: Object.assign({}, ...fields.map((field) => ({[field.name]: field.validation})))[name]
-            })));
+        const values = fields.map((field) => ({
+            ...field,
+            value: state.values[field.name]
+        }))
+
+        const errors = validate(values, VALIDATION_TYPES.validation);
 
         if (isEmpty(errors)) {
             onSubmit(state);
@@ -80,6 +59,7 @@ const FormBuilder = (props) => {
                 isValid: false
             }));
         }
+
     };
 
     return (

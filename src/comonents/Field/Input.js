@@ -2,7 +2,16 @@ import React from 'react';
 import {omit} from "lodash";
 
 const Input = (props) => {
-    const {name, error, label, onChange, validation, restriction, children, value} = props;
+    const {
+        name,
+        error,
+        label,
+        onChange,
+        validation,
+        restriction,
+        children,
+        value = ''
+    } = props;
 
     const handleChange = ({target: {name, value}}) => {
         onChange({
@@ -20,7 +29,7 @@ const Input = (props) => {
             </div>
             <input
                 {...omit(props, ['restriction', 'validation', 'initialValue', 'children'])}
-                value={value || ''}
+                value={value}
                 onChange={handleChange}
             />
             {children}

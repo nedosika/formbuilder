@@ -1,12 +1,28 @@
-import {entries} from "lodash";
+import {isArray, isEmpty} from "lodash";
 
 import useValidator from "../hooks/useValidator";
+import {VALIDATION_TYPES} from "../constants";
 
-export default function (field){
+const validate = (fields, type =  VALIDATION_TYPES.validation) => {
     const validator = useValidator();
 
-    const errorMessage = validator.validate(entries(field.validation).map(([validateFn, value]) =>
-        validator[validateFn](value)))(field.value);
+    const errors = fields.map((field) => {
+        const values = isArray(field.value)
+            ? field.value || ''
+            : [field.value || ''];
 
-    return (errorMessage ? {[field.name]: errorMessage} : {})
+        const validators = field[type]
+            ? Object.entries(field[type]).map(([fn, value]) => validator[fn](value))
+            : []
+
+        const error = values
+            .map((value) => validator.validate(validators)(value))
+            .filter((error) => error !== '')[0];
+
+        return isEmpty(error) ? {} : {[field.name]: error}
+    })
+
+    return Object.assign({}, ...errors);
 }
+
+export default validate;

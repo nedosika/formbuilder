@@ -1,6 +1,6 @@
 import React from "react";
 
-import {FIELDS} from "./constants";
+import {FIELDS, VALIDATION_TYPES} from "./constants";
 import FormBuilder from "./comonents/FormBuilder";
 
 //TODO:
@@ -25,8 +25,8 @@ function App() {
                         name: 'firstName',
                         label: 'First Name:',
                         initialValue: 'qqq',
-                        validation: {
-                            [FIELDS.text.validators.minLength]: 3,
+                        [VALIDATION_TYPES.validation]: {
+                            [FIELDS.text.validators.minLength]: 2,
                             [FIELDS.text.validators.maxLength]: 10
                         }
                     },
@@ -37,7 +37,7 @@ function App() {
                         placeholder: 'Second Name',
                         required: true,
                         initialValue: '',
-                        validation: {
+                        [VALIDATION_TYPES.validation]: {
                             [FIELDS.text.validators.minLength]: 3,
                             [FIELDS.text.validators.maxLength]: 10,
                             [FIELDS.text.validators.required]: true
@@ -50,7 +50,7 @@ function App() {
                         autoComplete: 'new-password',
                         required: true,
                         initialValue: '',
-                        validation: {
+                        [VALIDATION_TYPES.validation]: {
                             [FIELDS.password.validators.minLength]: 8,
                             [FIELDS.password.validators.maxLength]: 10
                         }
@@ -60,11 +60,11 @@ function App() {
                         name: 'io',
                         label: 'IO:',
                         initialValue: '',
-                        validation: {
+                        [VALIDATION_TYPES.validation]: {
                             [FIELDS.alphabet.validators.minLength]: 1
                         },
                         restriction: {
-                            [FIELDS.alphabet.restrictions.maxLength]: 10
+                            [FIELDS.alphabet.restrictions.maxLength]: 2
                         },
                     },
                     {
@@ -78,7 +78,7 @@ function App() {
                         type: FIELDS.number.type,
                         name: 'age',
                         label: 'Age:',
-                        validation: {
+                        [VALIDATION_TYPES.validation]: {
                             [FIELDS.number.validators.min]: 2,
                             [FIELDS.number.validators.max]: 88
                         },
@@ -96,7 +96,7 @@ function App() {
                         type: FIELDS.textarea.type,
                         name: 'description',
                         label: 'Description:',
-                        validation: {
+                        [VALIDATION_TYPES.validation]: {
                             [FIELDS.textarea.validators.required]: true,
                             [FIELDS.textarea.restrictions.alphabet]: true,
                         },
@@ -108,7 +108,18 @@ function App() {
                         type: FIELDS.array.type,
                         name: 'ipAddresses',
                         label: 'IP-addresses',
-                        initialValue: ['test1', 'test2']
+                        initialValue: ['test1', 'test2'],
+                        [VALIDATION_TYPES.validation]:{
+                            [FIELDS.array.validators.alphabet]: true
+                        }
+                    },
+                    {
+                        type: FIELDS.array.type,
+                        name: 'ipAddresses2',
+                        label: 'IP-addresses2',
+                        [VALIDATION_TYPES.validation]:{
+                            [FIELDS.array.validators.alphabet]: true
+                        }
                     }
                 ]
             }}

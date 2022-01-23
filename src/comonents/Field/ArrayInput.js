@@ -15,7 +15,7 @@ const ArrayInput = (props) => {
         onChange,
         validation,
         restriction,
-        value: values
+        value: values = ['']
     } = props;
 
     const handleChange = (field) => {
@@ -63,7 +63,7 @@ const ArrayInput = (props) => {
                             <Input
                                 key={index}
                                 name={index}
-                                value={value || ['']}
+                                value={value}
                                 onChange={handleChange}
                             >
                                 {

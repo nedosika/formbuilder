@@ -10,6 +10,11 @@ export const VALIDATORS = {
     maxLength: "maxLength",
 };
 
+export const VALIDATION_TYPES = {
+    validation: 'validation',
+    restriction: 'restriction'
+}
+
 export const FIELDS = {
     text: {
         type: "Text",
@@ -100,6 +105,9 @@ export const FIELDS = {
         type: "Object"
     },
     array: {
-        type: "ArrayInput"
+        type: "ArrayInput",
+        validators: {
+            alphabet: VALIDATORS.alphabet
+        }
     }
 };

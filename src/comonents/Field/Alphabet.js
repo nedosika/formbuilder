@@ -7,7 +7,10 @@ const Alphabet = (props) => {
     const {restriction} = props;
 
     return (
-        <Input {...props} restriction={{...restriction, [FIELDS.alphabet.restrictions.alphabet]: true}}/>
+        <Input
+            {...props}
+            restriction={{...restriction, [FIELDS.alphabet.restrictions.alphabet]: true}}
+        />
     );
 }
 
