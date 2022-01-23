@@ -12,7 +12,7 @@ export const VALIDATORS = {
 
 export const FIELDS = {
     text: {
-        type: "text",
+        type: "Text",
         validators: {
             minLength: VALIDATORS.minLength,
             maxLength: VALIDATORS.maxLength,
@@ -25,7 +25,7 @@ export const FIELDS = {
         }
     },
     password: {
-        type: 'password',
+        type: 'Password',
         validators: {
             minLength: VALIDATORS.minLength,
             maxLength: VALIDATORS.maxLength,
@@ -38,7 +38,7 @@ export const FIELDS = {
         }
     },
     alphabet: {
-        type: 'alphabet',
+        type: 'Alphabet',
         validators: {
             minLength: VALIDATORS.minLength,
             maxLength: VALIDATORS.maxLength,
@@ -52,13 +52,13 @@ export const FIELDS = {
         }
     },
     select : {
-        type: 'select',
+        type: 'Select',
         validators: {
             required: VALIDATORS.required,
         }
     },
     number: {
-        type: "number",
+        type: "Number",
         validators: {
             min: VALIDATORS.min,
             max: VALIDATORS.max,
@@ -72,7 +72,7 @@ export const FIELDS = {
         }
     },
     email: {
-        type: "email",
+        type: "Email",
         validators: {
             required: VALIDATORS.required,
             pattern: VALIDATORS.pattern,
@@ -84,7 +84,7 @@ export const FIELDS = {
         }
     },
     textarea: {
-        type: "textarea",
+        type: "TextArea",
         validators: {
             required: VALIDATORS.required,
             alphabet: VALIDATORS.alphabet,
@@ -95,5 +95,11 @@ export const FIELDS = {
             alphabet: VALIDATORS.alphabet,
             pattern: VALIDATORS.pattern
         }
+    },
+    object: {
+        type: "Object"
+    },
+    array: {
+        type: "ArrayInput"
     }
 };

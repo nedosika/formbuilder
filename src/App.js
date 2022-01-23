@@ -1,8 +1,16 @@
 import React from "react";
 
 import {FIELDS} from "./constants";
-
 import FormBuilder from "./comonents/FormBuilder";
+
+//TODO:
+// 1.Add items:
+// array,
+// object with key value,
+// radio-buttons,
+// checkbox
+// 2. Add validation by server(with two endpoints: validation and save) by array and showing errors on frontend
+// 3.
 
 function App() {
     const onSubmit = (data) => console.log(data);
@@ -63,7 +71,7 @@ function App() {
                         type: FIELDS.select.type,
                         name: 'color',
                         label: 'Color:',
-                        initialValue: '1',
+                        initialValue: '0',
                         values: ['red', 'green', 'blue']
                     },
                     {
@@ -79,8 +87,8 @@ function App() {
                         }
                     },
                     {
-                        type:'email',
-                        name:'email',
+                        type: FIELDS.email.type,
+                        name: 'email',
                         label: 'Email:',
                         required: true
                     },
@@ -96,6 +104,12 @@ function App() {
                             [FIELDS.textarea.restrictions.alphabet]: true,
                         }
                     },
+                    {
+                        type: FIELDS.array.type,
+                        name: 'ipAddresses',
+                        label: 'IP-addresses',
+                        initialValue: ['test1', 'test2']
+                    }
                 ]
             }}
         />

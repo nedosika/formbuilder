@@ -4,8 +4,13 @@ import {omit} from "lodash";
 const TextArea = (props) => {
     const {name, error, label, onChange, validation, restriction} = props;
 
-    const handleChange = (event) => {
-        onChange(event, validation, restriction);
+    const handleChange = ({target: {name, value}}) => {
+        onChange({
+            name,
+            value,
+            validation,
+            restriction
+        });
     };
 
     return (

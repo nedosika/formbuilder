@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {assign, entries, isEmpty, omit} from "lodash";
 
-import Field from "./Field";
+import Fields from "./Field";
 import {restrict, validate} from "../helpers";
 
 const FormBuilder = (props) => {
@@ -10,35 +10,55 @@ const FormBuilder = (props) => {
         values: assign(
             {},
             ...fields.map((field) => ({
-                [field.name]: field.initialValue || ''
+                [field.name]: field.initialValue
             }))
         ),
         errors: {},
         isValid: true
     });
 
-    const handleChange = ({target: {name, value}}, validation, restriction) => {
-        const isRestricted = restrict(value, restriction);
+    console.log(state)
 
-        if (!isRestricted)
-            setState((prevState) => {
-                const values = {
-                    ...prevState.values,
-                    [name]: value
-                };
-                const errors = {
-                    ...omit(prevState.errors, [name]),
-                    ...validate({name, value, validation})
-                };
-                const isValid = isEmpty(errors);
+    const handleChange = (field, validation, restriction) => {
+        console.log(field)
 
-                return {
-                    ...prevState,
-                    values,
-                    errors,
-                    isValid
-                }
-            });
+        // const isRestricted = restrict(value, restriction);
+        //
+        // if (!isRestricted)
+        //     setState((prevState) => {
+        //         const values = {
+        //             ...prevState.values,
+        //             [field.name]: field.value
+        //         };
+        //         const errors = {
+        //             ...omit(prevState.errors, [field.name]),
+        //             ...validate(field)
+        //         };
+        //         const isValid = isEmpty(errors);
+        //
+        //         return {
+        //             ...prevState,
+        //             values,
+        //             errors,
+        //             isValid
+        //         }
+        //     });
+
+        setState((prevState) => {
+            const values = {
+                ...prevState.values,
+                [field.name]: field.value
+            };
+            const errors = {};
+            const isValid = true;
+
+            return {
+                ...prevState,
+                values,
+                errors,
+                isValid
+            }
+        });
     };
 
     const handleSubmit = (event) => {
@@ -54,7 +74,11 @@ const FormBuilder = (props) => {
         if (isEmpty(errors)) {
             onSubmit(state);
         } else {
-            setState((prevState) => ({...prevState, errors, isValid: false}));
+            setState((prevState) => ({
+                ...prevState,
+                errors,
+                isValid: false
+            }));
         }
     };
 
@@ -63,14 +87,16 @@ const FormBuilder = (props) => {
             <form onSubmit={handleSubmit} noValidate>
                 {
                     fields.map((field) =>
-                        <Field
-                            {...field}
-                            key={field.name}
-                            value={state.values[field.name]}
-                            error={state.errors[field.name]}
-                            onChange={handleChange}
-                        />
-                    )
+                        React.createElement(
+                            Fields[field.type],
+                            {
+                                ...field,
+                                key: field.name,
+                                value: state.values[field.name],
+                                error: state.errors[field.name],
+                                onChange: handleChange
+                            }
+                        ))
                 }
                 <input type='submit' disabled={!state.isValid}/>
             </form>

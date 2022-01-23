@@ -3,11 +3,18 @@ import React from 'react';
 const Select = (props) => {
     const {name, error, label, value, onChange, values} = props;
 
+    const handleChange = ({target: {name, value}}) => {
+        onChange({
+            name,
+            value
+        });
+    };
+
     return (
         <div>
             <label htmlFor={name}>{label}</label>
             <select
-                onChange={onChange}
+                onChange={handleChange}
                 name={name}
                 value={value}>
                 {values.map((text, value) =>
