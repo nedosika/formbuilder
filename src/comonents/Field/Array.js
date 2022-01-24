@@ -7,7 +7,7 @@ const ACTIONS = {
     delete: "delete"
 }
 
-const ArrayInput = (props) => {
+const Array = (props) => {
     const {
         name,
         error,
@@ -84,4 +84,4 @@ const ArrayInput = (props) => {
     );
 };
 
-export default ArrayInput;
+export default Array;

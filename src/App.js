@@ -120,6 +120,15 @@ function App() {
                         [VALIDATION_TYPES.validation]:{
                             [FIELDS.array.validators.alphabet]: true
                         }
+                    },
+                    {
+                        type: FIELDS.object.type,
+                        name: 'myObject',
+                        label: 'Object',
+                        initialValue: {
+                            'key': 'value',
+                            'key2': 'value2'
+                        }
                     }
                 ]
             }}

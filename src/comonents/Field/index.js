@@ -6,16 +6,18 @@ import Number from "./Number";
 import TextArea from "./TextArea";
 import Password from "./Password";
 import Alphabet from "./Alphabet";
-import ArrayInput from "./ArrayInput";
+import Array from "./Array";
+import Object from "./Object";
 
 export default {
     Text,
     Input,
     Email,
+    Array,
     Select,
     Number,
+    Object,
     TextArea,
     Password,
     Alphabet,
-    ArrayInput
 }

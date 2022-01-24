@@ -105,7 +105,7 @@ export const FIELDS = {
         type: "Object"
     },
     array: {
-        type: "ArrayInput",
+        type: "Array",
         validators: {
             alphabet: VALIDATORS.alphabet
         }
