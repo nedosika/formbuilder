@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Input from './Input';
+import {isEmpty} from "lodash";
 
 const ACTIONS = {
     add: "add",
@@ -15,47 +16,48 @@ const ObjectInput = (props) => {
         onChange,
         validation,
         restriction,
-        value: values = {'': ''}
+        value,
     } = props;
 
-    const handleChange = (field) => {
-        console.log(name, field)
+    const values = isEmpty(value)
+        ? [{key: '', value: ''}]
+        : Object.entries(value).map(([key, value]) => ({key, value}));
 
-        console.log({
-            ...values,
+    const handleChange = (index) => (field) => {
+        values[index] = {
+            ...values[index],
             [field.name]: field.value
-        })
+        };
 
-        // const value = [...values];
-        //
-        // value[field.name] = field.value;
-        //
-        // onChange({
-        //     name,
-        //     value,
-        //     validation,
-        //     restriction
-        // });
+        const value = Object.assign({}, ...values.map(({key, value}) => ({[key]: value})));
+
+        onChange({
+            name,
+            value,
+            restriction,
+            validation
+        })
     };
 
     const handleButtonClick = (index) => (event) => {
-        // event.preventDefault();
-        //
-        // const action = event.target.dataset.action;
-        // const value = [...values];
-        //
-        // if (action === ACTIONS.add)
-        //     value.push('');
-        //
-        // if (action === ACTIONS.delete)
-        //     value.splice(index, 1);
-        //
-        // onChange({
-        //     name,
-        //     value,
-        //     validation,
-        //     restriction
-        // });
+        event.preventDefault();
+
+        const {action} = event.target.dataset;
+
+        if (action === ACTIONS.add)
+            values.push({key: '', value: ''});
+
+        if (action === ACTIONS.delete)
+            values.splice(index, 1);
+
+        const value = Object.assign({}, ...values.map(({key, value}) => ({[key]: value})));
+
+        onChange({
+            name,
+            value,
+            restriction,
+            validation
+        })
     }
 
     return (
@@ -65,36 +67,27 @@ const ObjectInput = (props) => {
                     <label htmlFor={name}>{label}</label>
                 </div>
                 {
-                    Object.entries(values).map(([key, value]) => {
+                    values.map((element, index) => {
                         return (
-                            <div key={key} style={{display: 'flex', flexDirection: 'row'}}>
+                            <div key={element.key} style={{display: 'flex', flexDirection: 'row'}}>
                                 <Input
-                                    name={key}
-                                    value={key}
-                                    onChange={handleChange}
-                                >
-                                    {/*{*/}
-                                    {/*    values.length - 1 === index &&*/}
-                                    {/*    <button data-action={ACTIONS.add} onClick={handleButtonClick(index)}>+</button>*/}
-                                    {/*}*/}
-                                    {/*{*/}
-                                    {/*    values.length > 1 &&*/}
-                                    {/*    <button data-action={ACTIONS.delete} onClick={handleButtonClick(index)}>-</button>*/}
-                                    {/*}*/}
-                                </Input>
+                                    name='key'
+                                    value={element.key}
+                                    onChange={handleChange(index)}
+                                />
                                 <Input
-                                    name={value}
-                                    value={value}
-                                    onChange={handleChange}
+                                    name='value'
+                                    value={element.value}
+                                    onChange={handleChange(index)}
                                 >
-                                    {/*{*/}
-                                    {/*    values.length - 1 === index &&*/}
-                                    {/*    <button data-action={ACTIONS.add} onClick={handleButtonClick(index)}>+</button>*/}
-                                    {/*}*/}
-                                    {/*{*/}
-                                    {/*    values.length > 1 &&*/}
-                                    {/*    <button data-action={ACTIONS.delete} onClick={handleButtonClick(index)}>-</button>*/}
-                                    {/*}*/}
+                                    {
+                                        values.length - 1 === index &&
+                                        <button data-action={ACTIONS.add} onClick={handleButtonClick(index)}>+</button>
+                                    }
+                                    {
+                                        values.length > 1 &&
+                                        <button data-action={ACTIONS.delete} onClick={handleButtonClick(index)}>-</button>
+                                    }
                                 </Input>
                             </div>
                         );
