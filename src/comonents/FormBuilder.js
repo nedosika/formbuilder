@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {isEmpty, omit} from "lodash";
 
-import Fields from "./Field";
 import validate from "../helpers/validate";
 import {VALIDATION_TYPES} from "../constants";
+import Field from "./Field/Field";
 
 const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
+
     const [state, setState] = useState({
         values: Object.assign(
             {},
@@ -46,7 +47,7 @@ const FormBuilder = (props) => {
         const values = fields.map((field) => ({
             ...field,
             value: state.values[field.name]
-        }))
+        }));
 
         const errors = validate(values, VALIDATION_TYPES.validation);
 
@@ -59,7 +60,6 @@ const FormBuilder = (props) => {
                 isValid: false
             }));
         }
-
     };
 
     return (
@@ -67,16 +67,14 @@ const FormBuilder = (props) => {
             <form onSubmit={handleSubmit} noValidate>
                 {
                     fields.map((field) =>
-                        React.createElement(
-                            Fields[field.type],
-                            {
-                                ...field,
-                                key: field.name,
-                                value: state.values[field.name],
-                                error: state.errors[field.name],
-                                onChange: handleChange
-                            }
-                        ))
+                        <Field
+                            key={field.name}
+                            value={state.values[field.name]}
+                            error={state.errors[field.name]}
+                            {...field}
+                            onChange={handleChange}
+                        />
+                    )
                 }
                 <input type='submit' disabled={!state.isValid}/>
             </form>
