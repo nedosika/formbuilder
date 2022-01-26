@@ -21,6 +21,18 @@ function App() {
             config={{
                 fields: [
                     {
+                        type: FIELDS.radio.type,
+                        name: 'test'
+                    },
+                    {
+                        type: FIELDS.radio.type,
+                        name: 'test'
+                    },
+                    {
+                        type: FIELDS.checkbox.type,
+                        name: 'checkbox'
+                    },
+                    {
                         type: FIELDS.text.type,
                         name: 'firstName',
                         label: 'First Name:',

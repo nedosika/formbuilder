@@ -1,23 +1,20 @@
 import React, {useState} from 'react';
 import {isEmpty, omit} from "lodash";
 
+import {Field} from "./Field";
 import validate from "../helpers/validate";
 import {VALIDATION_TYPES} from "../constants";
-import Field from "./Field/Field";
 
 const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
 
     const [state, setState] = useState({
-        values: Object.assign(
-            {},
-            ...fields.map((field) => ({
-                [field.name]: field.initialValue
-            }))
-        ),
+        values: Object.assign({}, ...fields.map(({name, initialValue}) => ({[name]: initialValue}))),
         errors: {},
         isValid: true
     });
+
+    console.log(state)
 
     const handleChange = (field) => {
         if (isEmpty(validate([field], VALIDATION_TYPES.restriction)))

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Fields from "./index";
+import * as Fields from "./index";
 
 const Field = (props) => {
     const {type} = props;

@@ -109,5 +109,11 @@ export const FIELDS = {
         validators: {
             alphabet: VALIDATORS.alphabet
         }
+    },
+    radio: {
+        type: "Radio"
+    },
+    checkbox: {
+        type: "CheckBox"
     }
 };

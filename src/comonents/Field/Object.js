@@ -24,12 +24,16 @@ const ObjectInput = (props) => {
         : Object.entries(value).map(([key, value]) => ({key, value}));
 
     const handleChange = (index) => (field) => {
-        values[index] = {
-            ...values[index],
-            [field.name]: field.value
-        };
+        const newValues = [
+            ...values.slice(0, index),
+            {
+                ...values[index],
+                [field.name]: field.value
+            },
+            ...values.slice(index + 1)
+        ];
 
-        const value = Object.assign({}, ...values.map(({key, value}) => ({[key]: value})));
+        const value = Object.assign({}, ...newValues.map(({key, value}) => ({[key]: value})));
 
         onChange({
             name,
@@ -69,7 +73,7 @@ const ObjectInput = (props) => {
                 {
                     values.map((element, index) => {
                         return (
-                            <div key={element.key} style={{display: 'flex', flexDirection: 'row'}}>
+                            <div key={index} style={{display: 'flex', flexDirection: 'row'}}>
                                 <Input
                                     name='key'
                                     value={element.key}
@@ -86,7 +90,8 @@ const ObjectInput = (props) => {
                                     }
                                     {
                                         values.length > 1 &&
-                                        <button data-action={ACTIONS.delete} onClick={handleButtonClick(index)}>-</button>
+                                        <button data-action={ACTIONS.delete}
+                                                onClick={handleButtonClick(index)}>-</button>
                                     }
                                 </Input>
                             </div>
