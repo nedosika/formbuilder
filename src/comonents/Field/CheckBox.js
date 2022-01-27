@@ -1,39 +1,29 @@
 import React from 'react';
-import {omit} from "lodash";
+
+import Input from "./Input";
 
 const CheckBox = (props) => {
     const {
         name,
-        error,
-        label,
-        onChange,
-        validation,
-        restriction,
-        children,
-        value = ''
+        value,
+        checked,
+        onChange
     } = props;
 
-    const handleChange = ({target: {name, value}}) => {
+    const handleChange = () => {
         onChange({
             name,
-            value,
-            validation,
-            restriction
-        });
+            value: value === undefined ? !checked : !value
+        })
     };
 
     return (
         <div>
-            <div>
-                <label htmlFor={name}>{label}</label>
-            </div>
-            <input
-                {...omit(props, ['restriction', 'validation', 'initialValue', 'children'])}
-                value={value}
+            <Input
+                {...props}
+                checked={value === undefined ? checked : value}
                 onChange={handleChange}
             />
-            {children}
-            {error && (<div style={{color: 'red'}}>{error}</div>)}
         </div>
     );
 };

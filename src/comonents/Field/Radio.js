@@ -20,14 +20,16 @@ const Radio = (props) => {
     return (
         <div>
             {
-                values.map(({label, value, checked}) => <Input
-                    {...props}
-                    key={value}
-                    value={value}
-                    label={label}
-                    checked={checkedValue ? checkedValue === value : checked}
-                    onChange={handleChange}
-                />)
+                values.map(({label, value, checked}) =>
+                    <Input
+                        {...props}
+                        key={value}
+                        value={value}
+                        label={label}
+                        checked={checkedValue ? checkedValue === value : checked}
+                        onChange={handleChange}
+                    />
+                )
             }
         </div>
     );

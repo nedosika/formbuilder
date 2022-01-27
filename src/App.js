@@ -31,7 +31,14 @@ function App() {
                     },
                     {
                         type: FIELDS.checkbox.type,
-                        name: 'checkbox'
+                        name: 'checkbox1',
+                        label: 'CheckBox1'
+                    },
+                    {
+                        type: FIELDS.checkbox.type,
+                        name: 'checkbox2',
+                        label: 'CheckBox2',
+                        checked: true
                     },
                     {
                         type: FIELDS.text.type,
