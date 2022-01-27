@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {isEmpty, omit} from "lodash";
 
-import {Field} from "./Field";
+import Field from "./Field";
 import validate from "../helpers/validate";
 import {VALIDATION_TYPES} from "../constants";
 

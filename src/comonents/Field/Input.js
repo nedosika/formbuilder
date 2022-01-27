@@ -3,7 +3,6 @@ import {omit} from "lodash";
 
 const Input = (props) => {
     const {
-        name,
         error,
         label,
         onChange,
@@ -24,16 +23,15 @@ const Input = (props) => {
 
     return (
         <div>
-            <div>
-                <label htmlFor={name}>{label}</label>
-            </div>
-            <input
-                {...omit(props, ['restriction', 'validation', 'initialValue', 'children'])}
-                value={value}
-                onChange={handleChange}
-            />
-            {children}
-            {error && (<div style={{color: 'red'}}>{error}</div>)}
+            <label>{label}
+                <input
+                    {...omit(props, ['restriction', 'validation', 'initialValue', 'children', 'values'])}
+                    value={value}
+                    onChange={handleChange}
+                />
+                {children}
+                {error && (<div style={{color: 'red'}}>{error}</div>)}
+            </label>
         </div>
     );
 };

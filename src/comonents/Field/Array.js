@@ -52,36 +52,34 @@ const Array = (props) => {
     }
 
     return (
+
         <div>
-            <div>
-                <div>
-                    <label htmlFor={name}>{label}</label>
-                </div>
+            <label>{label}
                 {
-                    values.map((value, index) => {
-                        return (
-                            <Input
-                                key={index}
-                                name={index}
-                                value={value}
-                                onChange={handleChange}
-                            >
-                                {
-                                    values.length - 1 === index &&
-                                    <button data-action={ACTIONS.add} onClick={handleButtonClick(index)}>+</button>
-                                }
-                                {
-                                    values.length > 1 &&
-                                    <button data-action={ACTIONS.delete} onClick={handleButtonClick(index)}>-</button>
-                                }
-                            </Input>
-                        );
-                    })
+                    values.map((value, index) =>
+                        <Input
+                            key={index}
+                            name={index}
+                            value={value}
+                            onChange={handleChange}
+                        >
+                            {
+                                values.length - 1 === index &&
+                                <button data-action={ACTIONS.add} onClick={handleButtonClick(index)}>+</button>
+                            }
+                            {
+                                values.length > 1 &&
+                                <button data-action={ACTIONS.delete}
+                                        onClick={handleButtonClick(index)}>-</button>
+                            }
+                        </Input>
+                    )
                 }
                 {error && (<div style={{color: 'red'}}>{error}</div>)}
-            </div>
+            </label>
         </div>
-    );
+
+);
 };
 
 export default Array;

@@ -66,10 +66,7 @@ const ObjectInput = (props) => {
 
     return (
         <div>
-            <div>
-                <div>
-                    <label htmlFor={name}>{label}</label>
-                </div>
+            <label>{label}
                 {
                     values.map((element, index) => {
                         return (
@@ -86,7 +83,8 @@ const ObjectInput = (props) => {
                                 >
                                     {
                                         values.length - 1 === index &&
-                                        <button data-action={ACTIONS.add} onClick={handleButtonClick(index)}>+</button>
+                                        <button data-action={ACTIONS.add}
+                                                onClick={handleButtonClick(index)}>+</button>
                                     }
                                     {
                                         values.length > 1 &&
@@ -98,8 +96,8 @@ const ObjectInput = (props) => {
                         );
                     })
                 }
-                {error && (<div style={{color: 'red'}}>{error}</div>)}
-            </div>
+            </label>
+            {error && (<div style={{color: 'red'}}>{error}</div>)}
         </div>
     );
 };

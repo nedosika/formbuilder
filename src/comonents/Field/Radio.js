@@ -1,41 +1,36 @@
 import React from 'react';
-import {omit} from "lodash";
+
+import Input from "./Input";
 
 const Radio = (props) => {
     const {
-        name,
-        error,
-        label,
+        value: checkedValue,
+        values,
         onChange,
-        validation,
-        restriction,
-        children,
-        value = ''
+        name
     } = props;
 
-    const handleChange = ({target: {name, value}}) => {
+    const handleChange = (field) => {
         onChange({
             name,
-            value,
-            validation,
-            restriction
-        });
-    };
+            value: field.value
+        })
+    }
 
     return (
         <div>
-            <div>
-                <label htmlFor={name}>{label}</label>
-            </div>
-            <input
-                {...omit(props, ['restriction', 'validation', 'initialValue', 'children'])}
-                value={value}
-                onChange={handleChange}
-            />
-            {children}
-            {error && (<div style={{color: 'red'}}>{error}</div>)}
+            {
+                values.map(({label, value, checked}) => <Input
+                    {...props}
+                    key={value}
+                    value={value}
+                    label={label}
+                    checked={checkedValue ? checkedValue === value : checked}
+                    onChange={handleChange}
+                />)
+            }
         </div>
     );
-};
+}
 
 export default Radio;

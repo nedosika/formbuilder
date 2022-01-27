@@ -8,9 +8,10 @@ import Password from "./Password";
 import Alphabet from "./Alphabet";
 import Array from "./Array";
 import Object from "./Object";
-import Field from "./Field";
 import CheckBox from "./CheckBox";
 import Radio from "./Radio";
+
+export {default} from "./Field";
 
 export {
     Text,
@@ -23,7 +24,6 @@ export {
     TextArea,
     Password,
     Alphabet,
-    Field,
     Radio,
     CheckBox
 }

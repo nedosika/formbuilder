@@ -22,11 +22,12 @@ function App() {
                 fields: [
                     {
                         type: FIELDS.radio.type,
-                        name: 'test'
-                    },
-                    {
-                        type: FIELDS.radio.type,
-                        name: 'test'
+                        name: 'radio',
+                        values: [
+                            {value: 'first', label: 'FirstValue'},
+                            {value: 'second', label: 'SecondValue', checked: true},
+                            {value: 'third', label: 'ThirdValue'}
+                        ],
                     },
                     {
                         type: FIELDS.checkbox.type,
@@ -121,7 +122,7 @@ function App() {
                         name: 'ipAddresses',
                         label: 'IP-addresses',
                         initialValue: ['test1', 'test2'],
-                        [VALIDATION_TYPES.validation]:{
+                        [VALIDATION_TYPES.validation]: {
                             [FIELDS.array.validators.alphabet]: true
                         }
                     },
@@ -129,7 +130,7 @@ function App() {
                         type: FIELDS.array.type,
                         name: 'ipAddresses2',
                         label: 'IP-addresses2',
-                        [VALIDATION_TYPES.validation]:{
+                        [VALIDATION_TYPES.validation]: {
                             [FIELDS.array.validators.alphabet]: true
                         }
                     },
