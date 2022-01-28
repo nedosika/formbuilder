@@ -1,6 +1,6 @@
 import {isArray, isEmpty} from "lodash";
 
-import useValidator from "../components/Validator/Validator";
+import useValidator from "../components/Validator";
 
 const validate = (fields, type) => {
     const validator = useValidator();
