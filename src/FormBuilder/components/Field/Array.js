@@ -57,12 +57,13 @@ const Array = (props) => {
             <label>{label}
                 {
                     values.map((value, index) =>
-                        <Input
-                            key={index}
-                            name={index}
-                            value={value}
-                            onChange={handleChange}
-                        >
+                        <div key={index} style={{display: 'flex', flexDirection: 'row'}}>
+                            <Input
+                                key={index}
+                                name={index}
+                                value={value}
+                                onChange={handleChange}
+                            />
                             {
                                 values.length - 1 === index &&
                                 <button data-action={ACTIONS.add} onClick={handleButtonClick(index)}>+</button>
@@ -72,14 +73,14 @@ const Array = (props) => {
                                 <button data-action={ACTIONS.delete}
                                         onClick={handleButtonClick(index)}>-</button>
                             }
-                        </Input>
+                        </div>
                     )
                 }
                 {error && (<div style={{color: 'red'}}>{error}</div>)}
             </label>
         </div>
 
-);
+    );
 };
 
 export default Array;

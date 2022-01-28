@@ -1,23 +1,27 @@
-export const VALIDATORS = {
-    max: "max",
-    min: "min",
-    email: "email",
-    number: "number",
-    pattern: "pattern",
-    required: "required",
-    alphabet: "alphabet",
-    minLength: "minLength",
-    maxLength: "maxLength",
-};
+import {VALIDATORS} from "./components/Validator";
 
-export const VALIDATION_TYPES = {
-    validation: 'validation',
-    restriction: 'restriction'
+export {default} from "./FormBuilder";
+
+export const PROPS = {
+    name: 'name',
+    type: 'type',
+    label: 'label',
+    required: 'required',
+    placeholder: 'placeholder',
+    initialValue: 'initialValue'
 }
 
 export const FIELDS = {
     text: {
         type: "Text",
+        props: {
+            name: PROPS.name,
+            type: PROPS.type,
+            label: PROPS.label,
+            required: PROPS.required,
+            placeholder: PROPS.placeholder,
+            initialValue: PROPS.initialValue
+        },
         validators: {
             minLength: VALIDATORS.minLength,
             maxLength: VALIDATORS.maxLength,
@@ -52,8 +56,8 @@ export const FIELDS = {
         },
         restrictions: {
             maxLength: VALIDATORS.maxLength,
+            alphabet: VALIDATORS.alphabet,
             pattern: VALIDATORS.pattern,
-            alphabet: VALIDATORS.alphabet
         }
     },
     select : {
@@ -65,10 +69,10 @@ export const FIELDS = {
     number: {
         type: "Number",
         validators: {
-            min: VALIDATORS.min,
-            max: VALIDATORS.max,
             required: VALIDATORS.required,
-            pattern: VALIDATORS.pattern
+            pattern: VALIDATORS.pattern,
+            min: VALIDATORS.min,
+            max: VALIDATORS.max
         },
         restrictions: {
             maxLength: VALIDATORS.maxLength,

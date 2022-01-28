@@ -1,7 +1,8 @@
 import React from "react";
 
-import {FIELDS, VALIDATION_TYPES} from "./constants";
-import FormBuilder from "./comonents/FormBuilder";
+import FormBuilder from "./FormBuilder";
+import {VALIDATION_TYPES} from "./FormBuilder/components/Validator";
+import {FIELDS} from "./FormBuilder";
 
 //TODO:
 // 1.Add items:
@@ -51,12 +52,12 @@ function App() {
                         }
                     },
                     {
-                        type: FIELDS.text.type,
-                        name: 'secondName',
-                        label: 'Second Name:',
-                        placeholder: 'Second Name',
-                        required: true,
-                        initialValue: '',
+                        [FIELDS.text.props.type]: FIELDS.text.type,
+                        [FIELDS.text.props.name]: 'secondName',
+                        [FIELDS.text.props.label]: 'Second Name:',
+                        [FIELDS.text.props.initialValue]: 'Second Name',
+                        [FIELDS.text.props.required]: true,
+                        [FIELDS.text.props.initialValue]: '',
                         [VALIDATION_TYPES.validation]: {
                             [FIELDS.text.validators.minLength]: 3,
                             [FIELDS.text.validators.maxLength]: 10,

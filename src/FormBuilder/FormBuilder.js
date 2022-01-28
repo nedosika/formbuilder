@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {isEmpty, omit} from "lodash";
 
-import Field from "./Field";
-import validate from "../helpers/validate";
-import {VALIDATION_TYPES} from "../constants";
+import Field from "./components/Field";
+import validate from "./lib/validate";
+import {VALIDATION_TYPES} from "./components/Validator";
 
 const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
@@ -13,8 +13,6 @@ const FormBuilder = (props) => {
         errors: {},
         isValid: true
     });
-
-    console.log(state)
 
     const handleChange = (field) => {
         if (isEmpty(validate([field], VALIDATION_TYPES.restriction)))
@@ -51,6 +49,10 @@ const FormBuilder = (props) => {
         if (isEmpty(errors)) {
             onSubmit(state);
         } else {
+
+
+
+
             setState((prevState) => ({
                 ...prevState,
                 errors,

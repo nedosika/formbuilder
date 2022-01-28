@@ -13,10 +13,10 @@ const ObjectInput = (props) => {
         name,
         error,
         label,
+        value,
         onChange,
         validation,
         restriction,
-        value,
     } = props;
 
     const values = isEmpty(value)
@@ -38,8 +38,8 @@ const ObjectInput = (props) => {
         onChange({
             name,
             value,
-            restriction,
-            validation
+            validation,
+            restriction
         })
     };
 
@@ -80,18 +80,17 @@ const ObjectInput = (props) => {
                                     name='value'
                                     value={element.value}
                                     onChange={handleChange(index)}
-                                >
-                                    {
-                                        values.length - 1 === index &&
-                                        <button data-action={ACTIONS.add}
-                                                onClick={handleButtonClick(index)}>+</button>
-                                    }
-                                    {
-                                        values.length > 1 &&
-                                        <button data-action={ACTIONS.delete}
-                                                onClick={handleButtonClick(index)}>-</button>
-                                    }
-                                </Input>
+                                />
+                                {
+                                    values.length - 1 === index &&
+                                    <button data-action={ACTIONS.add}
+                                            onClick={handleButtonClick(index)}>+</button>
+                                }
+                                {
+                                    values.length > 1 &&
+                                    <button data-action={ACTIONS.delete}
+                                            onClick={handleButtonClick(index)}>-</button>
+                                }
                             </div>
                         );
                     })

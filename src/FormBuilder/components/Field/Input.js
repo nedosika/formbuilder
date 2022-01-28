@@ -8,7 +8,6 @@ const Input = (props) => {
         onChange,
         validation,
         restriction,
-        children,
         value = ''
     } = props;
 
@@ -25,11 +24,10 @@ const Input = (props) => {
         <div>
             <label>{label}
                 <input
-                    {...omit(props, ['restriction', 'validation', 'initialValue', 'children', 'values'])}
+                    {...omit(props, ['restriction', 'validation', 'initialValue', 'values'])}
                     value={value}
                     onChange={handleChange}
                 />
-                {children}
                 {error && (<div style={{color: 'red'}}>{error}</div>)}
             </label>
         </div>
