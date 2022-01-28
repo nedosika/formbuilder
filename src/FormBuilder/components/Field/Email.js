@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Input from "./Input";
-import {FIELDS} from "../../index";
+import {FIELDS} from "../../constants";
 
 const Email = (props) => {
     const {validation} = props;

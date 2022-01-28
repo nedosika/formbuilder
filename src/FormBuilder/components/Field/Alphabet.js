@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Input from "./Input";
-import {FIELDS} from "../../index";
+import {FIELDS} from "../../constants";
 
 const Alphabet = (props) => {
     const {restriction} = props;

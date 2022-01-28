@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {isEmpty, omit} from "lodash";
 
+import {VALIDATION_TYPES} from "./constants";
 import Field from "./components/Field";
 import validate from "./lib/validate";
-import {VALIDATION_TYPES} from "./components/Validator";
 
 const FormBuilder = (props) => {
     const {config: {fields}, onSubmit} = props;
@@ -13,8 +13,10 @@ const FormBuilder = (props) => {
         errors: {},
         isValid: true
     });
+    const [loader, setLoader] = useState(false)
 
     const handleChange = (field) => {
+        console.log(field)
         if (isEmpty(validate([field], VALIDATION_TYPES.restriction)))
             setState((prevState) => {
                 const values = {
@@ -36,7 +38,7 @@ const FormBuilder = (props) => {
             });
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const values = fields.map((field) => ({
@@ -47,12 +49,20 @@ const FormBuilder = (props) => {
         const errors = validate(values, VALIDATION_TYPES.validation);
 
         if (isEmpty(errors)) {
-            onSubmit(state);
+            setLoader(true);
+
+            const errors = await onSubmit(state);
+
+            if(!isEmpty(errors)) {
+                setState((prevState) => ({
+                    ...prevState,
+                    errors,
+                    isValid: false
+                }));
+            }
+
+            setLoader(false);
         } else {
-
-
-
-
             setState((prevState) => ({
                 ...prevState,
                 errors,
@@ -60,6 +70,8 @@ const FormBuilder = (props) => {
             }));
         }
     };
+
+    console.log(state)
 
     return (
         <div>
@@ -75,7 +87,7 @@ const FormBuilder = (props) => {
                         />
                     )
                 }
-                <input type='submit' disabled={!state.isValid}/>
+                <input type='submit' disabled={!state.isValid || loader} value={loader ? 'Sending...' : 'Submit'}/>
             </form>
         </div>
     );
