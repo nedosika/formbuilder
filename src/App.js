@@ -29,13 +29,12 @@ function App() {
         if (response.status === 405) {
             const result = await response.json();
             errors = result.errors
-            console.log(errors)
         }
 
-        if (response.status === 200) {
-            const data = await response.json();
-            console.log(data)
-        }
+        // if (response.status === 200) {
+        //     const data = await response.json();
+        //     console.log(data)
+        // }
 
         if(isEmpty(errors)){
             const response = await fetch('https://k5ip0.sse.codesandbox.io/api/ip', {
@@ -43,7 +42,9 @@ function App() {
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
                 },
-                body: JSON.stringify({...data.values})
+                body: JSON.stringify({
+                    ips: data.values.ips
+                })
             });
 
             if (response.status === 201) {
